@@ -235,3 +235,25 @@ void pspUARTPrint(const char *str)
 
 	pspSdkSetK1(k1); 
 }
+
+
+//
+// pspUARTWaitForData(timeout)
+// Waits for data to be recieved, upto a provided timeout
+//
+void pspUARTWaitForData(unsigned int timeout)
+{
+	u32 result;
+ 
+	sceKernelWaitEventFlag(sio_eventflag, SIO_CHAR_RECV_EVENT, PSP_EVENT_WAITOR|PSP_EVENT_WAITCLEAR, &result, &timeout); //timeout could be null=forever
+}
+
+//
+// pspUARTResetRingBuffer()
+// Resets the head and tail positions of the ring buffer.
+//
+void pspUARTResetRingBuffer() 
+{
+	rx_buffer.head = 0;
+	rx_buffer.tail = 0;
+}
